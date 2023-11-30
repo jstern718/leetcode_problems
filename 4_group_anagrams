@@ -1,0 +1,83 @@
+/**
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+let groupAnagrams = function(strs) {
+    const hashMap = {};
+    for (let word of strs){
+        hashMap[word] = {};
+        for (let char of word){
+            if (hashMap[word][char] == true){
+                hashMap[word][char] += 1;
+            }
+            else{
+                hashMap[word][char] = 1;
+            }
+        }
+    }
+    let withEntries = Object.entries(hashMap);
+    for (let entry of withEntries){
+        entry[1] = Object.keys(entry[1]).sort();
+    }
+
+    function compareFn(a, b) {
+        if (a[1] < b[1]) {
+            return -1;
+        } else if (b[1] > a[1]) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function equals(a, b){
+        if (a.length != b.length){
+            return false;
+        }
+        else{
+            for (let i=0; i<a.length; i++){
+                if (a[i] != b[i]){
+                    return false
+                }
+            }
+            return true;
+        }
+    }
+
+    withEntries.sort(compareFn);
+
+    let lastPair = "x"
+    let combined;
+    let result = [];
+        for (let elem of withEntries){
+        console.log("e1", elem[1], "l1", lastPair[1]);
+        if (lastPair == "x"){
+            console.log("none");
+            lastPair = elem;
+            combined = [elem[0]];
+            console.log("lp", lastPair, "c", combined)
+        }
+        else if (equals(elem[1], lastPair[1])){
+            console.log("==");
+            lastPair = elem;
+            combined.push(elem[0]);
+        }
+        else{
+            console.log("!=");
+            lastPair = elem;
+            result.push(combined);
+            combined = [elem[0]];
+        }
+        console.log("combo", combined);
+        console.log("res", result);
+    }
+    result.push(combined);
+    // let y = [];
+    // let x = [];
+    // x.push('');
+    // x.push('');
+    // y.push(x)
+    // console.log("y", y);
+    // return x;
+    return result;
+
+};
