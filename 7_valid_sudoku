@@ -1,0 +1,44 @@
+//TODO: doesn't work
+
+/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var isValidSudoku = function(board) {
+
+    const hashRows = Array.apply(null, Array(9)).map(function (i) { return [] });
+    const hashColumns = Array.apply(null, Array(9)).map(function (i) { return [] })
+    const hashSquares = {
+        [0, 0]: [],
+        [0, 1]: [],
+        [0, 2]: [],
+        [1, 0]: [],
+        [1, 1]: [],
+        [1, 2]: [],
+        [2, 0]: [],
+        [2, 1]: [],
+        [2, 2]: [],
+    };
+
+    for (let y=0; y<9; y++){
+        for(let x=0; x<9; x++){
+            if (board[y][x] === "."){
+                continue
+            }
+            else if (hashRows[y].includes(board[y][x])
+                        || hashColumns[x].includes(board[y][x])
+                        // || hashSquares[x/3, y/3].includes(board[y][x])
+                    ){
+                return false;
+            }
+            else{
+                hashRows[y].push(board[y][x]);
+                hashColumns[x].push(board[y][x]);
+                hashSquares[`${x/3}, ${y/3}`].push(board[y][x]);
+            }
+        }
+    }
+    console.log("hashRows", hashRows);
+    console.log("hashColumns", hashColumns)
+
+}
